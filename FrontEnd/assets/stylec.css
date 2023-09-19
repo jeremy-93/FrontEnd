@@ -1,0 +1,553 @@
+.boite {
+  width: 585px;
+  margin: 0 auto;
+}
+
+.bouton {
+  font-family: Syne;
+  display: inline-block;
+  padding: 8px 16px;
+  margin-bottom: 50px;
+  color: #1d6154;
+  border: 1px solid #1d6154;
+  cursor: pointer;
+  margin-right: 5px;
+  border-radius: 30px;
+  justify-content: center;
+}
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+}
+nav li {
+  padding: 0 10px;
+  font-size: 1.2em;
+}
+.conteneurCroix {
+  width: 600px;
+  height: 30px;
+  font-size: 23px;
+  color: #000;
+  display: flex;
+  justify-content: end;
+}
+.imodif div {
+  display: flex;
+  align-items: center;
+  margin-left: -85px;
+}
+#introduction .modifier i {
+  margin: 5px;
+}
+#introduction .modifier p {
+  margin: 5px;
+}
+.boutton-modif {
+  display: initial;
+  width: 300px;
+}
+.imgmodifier i {
+  padding: 0px 10px;
+}
+.imodif {
+  width: 296px;
+  height: 50px;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-items: first baseline;
+  /* Utiliser "space-between" pour espacer les éléments */
+}
+
+.imodif div {
+  display: flex;
+  align-items: center; /* Aligner les éléments horizontalement dans la div interne */
+}
+
+.imodif i {
+  margin-right: 5px;
+}
+.pp {
+  padding: 7px 4px;
+}
+
+li:hover {
+  color: #b1663c;
+}
+
+.icone-supprimer {
+  position: absolute;
+}
+nav ul li a {
+  list-style: none;
+  text-decoration: none;
+  color: #000;
+}
+
+.mention {
+  display: flex;
+  width: 180px;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: last baseline;
+  padding: 0px;
+  margin-right: 0px;
+}
+
+.connexion {
+  width: 115px;
+  height: 100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: end;
+}
+.connexion p {
+  font-family: "Syne";
+  font-weight: 700;
+  font-size: 30px;
+  color: #1d6154;
+}
+input[type="submit"] {
+  cursor: pointer;
+}
+footer nav ul {
+  display: flex;
+  height: 300px;
+  align-items: end;
+  justify-content: flex-end;
+  margin: 1em 0em;
+}
+.mot-de-passe-oublier {
+  display: flex;
+  justify-content: center;
+}
+.mot-de-passe-oublier p {
+  color: #3d3d3d;
+  font-family: Work Sans;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0em;
+  border-bottom: 1px solid #3d3d3d;
+  cursor: pointer;
+}
+.adresse {
+  color: red;
+  display: none;
+}
+.erreur {
+  color: red;
+  display: none;
+  margin-top: 15px;
+}
+
+.modif {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+  align-items: last baseline;
+}
+.hidden {
+  display: none;
+}
+.visible {
+  display: block;
+}
+nav img {
+  width: 15px;
+  height: 15px;
+}
+
+.boite-barre {
+  width: 350px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 auto;
+}
+.barre {
+  height: 30px;
+  background-color: #000;
+  max-width: none;
+  padding: 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.barre p {
+  color: white;
+}
+.barre i {
+  color: white;
+}
+.barre input {
+  width: 200px;
+  border-radius: 30px;
+  padding: 8px;
+  background-color: white;
+  color: #000;
+  text-align: center;
+}
+.text::placeholder {
+  color: #000;
+}
+.inputPublier {
+  border-radius: 30px;
+}
+.edit-mode-bar {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
+}
+.colone {
+  display: flex;
+  flex-direction: column;
+}
+
+#maModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  max-width: 631px;
+  height: 600px;
+  border-radius: 10px;
+  display: none;
+  background-color: white;
+}
+
+.modal-contenu {
+  margin-left: 50px;
+  margin-right: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-start;
+}
+.boiteImage {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  display: contents;
+}
+.galerie-images {
+  display: flex; /* Pour que les images soient en ligne */
+  flex-wrap: wrap; /* Si vous voulez que les images passent à la ligne automatiquement */
+}
+.modal-contenu img {
+  max-width: 78px;
+  height: 105px;
+  margin: 5px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.titreh1Modal {
+  width: 100%;
+  margin: 0px 0px;
+  font-family: Work sans;
+  color: black;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.barreG {
+  border-bottom: 1px solid #1d6154;
+  width: 100%;
+  margin: 65px 0px;
+}
+.ajoutPhoto {
+  width: 250px;
+  background-color: #1d6154;
+  border: #1d6154;
+  color: white;
+  text-align: center;
+  align-items: center;
+  font-family: Syne;
+  display: flex;
+  justify-content: center;
+  border-radius: 30px;
+  height: 40px;
+  cursor: pointer;
+}
+.divB {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 73px;
+  width: 100%;
+}
+.divB p {
+  color: #1d6154;
+  font-family: Syne;
+}
+.modal-con {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+.encadrement-photo {
+  width: 420px;
+  height: 169px;
+  top: 786px;
+  left: 510px;
+  border-radius: 3px;
+  background: #e8f1f6;
+}
+.corbeille {
+  position: absolute;
+}
+
+.modalEnvoie {
+  display: none;
+  top: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  width: 631px;
+  height: 670px;
+  border-radius: 10px;
+  display: block;
+  background-color: white;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 670px;
+}
+
+input {
+  border: white;
+  padding: 5px 0px;
+  display: flex;
+  justify-content: center;
+  width: 420px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+#login form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#login form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+#login input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#login label {
+  margin: 2em 0 1em 0;
+  width: 37%;
+}
+#login textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+input[type="submit"] {
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  margin: 2em auto;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+}
+.nonVisible {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+#bouttonAjoutphoto {
+  display: flex;
+  justify-content: center;
+  border: #9bbed1;
+}
+.champSaisie {
+  height: 23px;
+  width: 420px;
+}
+#categorie {
+  margin-top: 15px;
+  border: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  height: 50px;
+}
+label {
+  font-size: 14px;
+  color: #3d3d3d;
+  font-weight: 500px;
+  cursor: pointer;
+}
+.titre {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.form1 {
+  display: flex;
+  flex-direction: column;
+}
+.bouton-envoyer {
+  width: 237px;
+  height: 36px;
+  padding: 0px;
+  border-radius: 60px;
+  background-color: #a7a7a7;
+  font-family: Syne;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+  color: white;
+}
+.rectangle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 420px;
+  height: 169px;
+  top: 786px;
+  left: 510px;
+  border-radius: 3px;
+  background: #e8f1f6;
+  box-sizing: border-box;
+}
+.rectangle label {
+  display: inline-block;
+  align-items: center;
+}
+.rectangle p {
+  margin: 0px;
+  padding: 0px;
+}
+.ligne {
+  width: 420px;
+  height: 2px;
+  background-color: #b3b3b3;
+  margin-top: 70px;
+}
+#telecharger-photo {
+  display: flex;
+  justify-content: center;
+  width: 173px;
+  height: 36px;
+  top: 881px;
+  left: 633px;
+  border-radius: 50px;
+  background-color: #9bbed1;
+}
+.upload {
+  display: flex;
+  align-items: center;
+}
+.icon {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rectangle i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #9bbed1;
+  font-size: 70px;
+}
+.rectangle .upload {
+  display: flex;
+  justify-content: center;
+  width: 173px;
+  height: 36px;
+  border-radius: 50px;
+  border: none;
+  background-color: #9bbed1;
+}
+
+.bloc {
+  margin-top: 10px;
+  width: 600px;
+  display: flex;
+  justify-content: space-between;
+}
+.bloc i {
+  font-size: 20px;
+}
+.divphoto {
+  color: #9bbed1;
+  width: 420px;
+  height: 169px;
+}
+.divphotoImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  width: 30%;
+  height: 170px;
+}
+.image-container {
+  position: relative; /* Définissez la position relative pour que les éléments enfants soient positionnés par rapport à ce conteneur */
+}
+
+.image-container img {
+  width: 100%; /* Assurez-vous que l'image occupe tout l'espace du conteneur */
+}
+
+.icone-supprimer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 20px;
+  height: 20px;
+  background-color: #000;
+  top: 12px;
+  right: 10px;
+  z-index: 1;
+  border-radius: 2px;
+}
+.icone-hover {
+  position: absolute;
+  margin: 0 auto;
+  top: 12px;
+  text-align: center;
+  top: 12px;
+  right: 35px;
+  line-height: 20px;
+  right: 35px;
+  width: 20px;
+  height: 20px;
+  color: white;
+  background-color: #000;
+  display: flex;
+  /* Affichez l'icône lorsque le conteneur est survolé */
+}
