@@ -1,3 +1,5 @@
+const fondNoir = document.getElementById("fondNoir");
+
 function appelApi() {
   const url = "http://localhost:5678/api/works";
   fetch(url)
@@ -7,12 +9,12 @@ function appelApi() {
       } else {
         return response.json();
       }
-      console.log(re);
     })
     .then((data) => {
-      travaux = data; // Mettez à jour la variable globale
+      travaux = data;
+
+      localStorage.setItem("travaux", JSON.stringify(travaux));
       afficherTravaux(travaux);
-      console.log(travaux);
     })
     .catch((error) => {
       console.error("Erreur lors de la récupération :", error);
@@ -20,17 +22,21 @@ function appelApi() {
 }
 appelApi();
 
-// création fiche travail
+// création une fiche travail
+
 function créerElementTravail(travail) {
   const figure = document.createElement("figure");
 
   const img = document.createElement("img");
   img.src = travail.imageUrl;
   const figcaption = document.createElement("figcaption");
+  figcaption.textContent = travail.title;
   figure.appendChild(img);
   figure.appendChild(figcaption);
   return figure;
 }
+
+// Afficher les travaux
 
 function afficherTravaux(travaux) {
   const galerie = document.querySelector(".gallery");
@@ -41,21 +47,24 @@ function afficherTravaux(travaux) {
     const img = document.createElement("img");
     img.src = travail.imageUrl;
     const figcaption = document.createElement("figcaption");
+    figcaption.textContent = travail.title;
+    figcaption.style.color = "#3D3D3D";
     figure.id = travail.id;
     figure.appendChild(img);
     figure.appendChild(figcaption);
     galerie.appendChild(figure);
   }
 }
+
 // boutton filtrage
 
 const boutonsCategorie = document.querySelectorAll(".menu-categorie li");
 
 for (let i = 0; i < boutonsCategorie.length; i++) {
   const bouton = boutonsCategorie[i];
-  const boite = document.querySelector(".boite-effacer");
-  boite.classList.add("boite");
-  bouton.classList.add("bouton");
+  const boiteBouton = document.querySelector(".boite-effacer");
+  boiteBouton.classList.add("boiteBouton");
+  bouton.classList.add("boutonFiltre");
 
   bouton.addEventListener("mouseover", () => {
     bouton.style.backgroundColor = "#1D6154";
@@ -105,7 +114,7 @@ function afficherOuMasquerElements() {
   const token = sessionStorage.getItem("token");
   const barre = document.querySelector(".barre");
   const divModif = document.querySelector(".imodif");
-  const loginLink = document.querySelector("nav li a[href='page-login.html']");
+  const loginLink = document.querySelector("#nav-login");
   const boite = document.querySelector(".boite-effacer");
   const ouvrirModal = document.getElementById("ouvrirModal");
 
@@ -128,24 +137,26 @@ afficherOuMasquerElements();
 const ouvrirModal = document.getElementById("ouvrirModal");
 ouvrirModal.style.cursor = "pointer";
 const maModal = document.getElementById("maModal");
-
+maModal.style.display = "none";
 ouvrirModal.addEventListener("click", function () {
   maModal.style.display = "block";
+  fondNoir.style.display = "block";
   afficherTravauxDansModal(travaux);
 });
+
+// Afficher travaux modal
 
 function afficherTravauxDansModal(travaux) {
   const modalCroixContaineur = document.createElement("div");
   const modalContent = document.querySelector(".modal-contenu");
   modalContent.innerHTML = "";
-  const container = document.createElement("div");
-  container.classList.add("container");
 
   const boutonFermerModal = document.createElement("i");
   boutonFermerModal.classList.add("fa-solid", "fa-xmark");
   boutonFermerModal.classList.add("conteneurCroix");
 
   boutonFermerModal.addEventListener("click", function () {
+    fondNoir.style.display = "none";
     maModal.style.display = "none";
   });
 
@@ -162,7 +173,6 @@ function afficherTravauxDansModal(travaux) {
   modalContent.appendChild(titreGalerie);
   modalContent.appendChild(galerieDiv);
 
-  //
   travaux.forEach((travail) => {
     const imgElement = créerElementImage(travail);
     galerieDiv.appendChild(imgElement);
@@ -182,10 +192,6 @@ function afficherTravauxDansModal(travaux) {
   ajout.classList.add("ajoutPhoto");
   espaceVertical.appendChild(ajout);
 
-  const texteSupprimer = document.createElement("p");
-  texteSupprimer.textContent = "Supprimer la galerie";
-  espaceVertical.appendChild(texteSupprimer);
-  modalContent.appendChild(container);
   // boutton ajouter une photo
 
   ajout.addEventListener("click", function (event) {
@@ -196,9 +202,12 @@ function afficherTravauxDansModal(travaux) {
   });
 }
 
+// Evenement au click pour fermée la modal au click a l'exterieur
+
 document.addEventListener("click", function (event) {
   const modalAjout = document.querySelector(".modalEnvoie");
   const maModal = document.querySelector("#maModal");
+  const fondNoir = document.querySelector(".fondNoir");
 
   if (
     modalAjout &&
@@ -206,6 +215,7 @@ document.addEventListener("click", function (event) {
     !document.getElementById("ouvrirModal").contains(event.target)
   ) {
     modalAjout.style.display = "none";
+    fondNoir.style.display = "none";
   }
 
   if (
@@ -214,8 +224,11 @@ document.addEventListener("click", function (event) {
     !document.getElementById("ouvrirModal").contains(event.target)
   ) {
     maModal.style.display = "none";
+    fondNoir.style.display = "none";
   }
 });
+
+// Création image modal
 
 function créerElementImage(travail) {
   const imgContainer = document.createElement("div");
@@ -239,6 +252,7 @@ function créerElementImage(travail) {
   const iconeHover = document.createElement("i");
   iconeHover.classList.add("fa-solid", "fa-arrows-up-down-left-right");
   iconeHover.classList.add("icone-hover");
+  iconeHover.style.display = "none";
 
   imgContainer.addEventListener("mouseenter", function () {
     iconeHover.style.display = "block";
@@ -253,6 +267,9 @@ function créerElementImage(travail) {
 
   return imgContainer;
 }
+
+// Modal pour ajout photo
+
 function afficherModalAjout() {
   const modalAjout = document.createElement("div");
   modalAjout.classList.add("modalEnvoie");
@@ -261,14 +278,16 @@ function afficherModalAjout() {
   container.classList.add("container");
 
   const h1 = document.createElement("h2");
-  h1.textContent = "ajouter photo";
+  h1.textContent = "Ajout photo";
   h1.classList.add("titreh1Modal");
   container.appendChild(h1);
 
   const bloc = document.createElement("div");
   bloc.classList.add("bloc");
+
   const fleche = document.createElement("i");
   fleche.classList.add("fa-solid", "fa-arrow-left");
+
   fleche.addEventListener("click", function (event) {
     const maModal = document.getElementById("maModal");
     event.stopPropagation();
@@ -276,19 +295,24 @@ function afficherModalAjout() {
     modalAjout.style.display = "none";
   });
 
-  bloc.appendChild(fleche);
-  container.appendChild(bloc);
-
-  const croix = document.createElement("i");
-  const boutonFermerModal = document.createElement("i");
-  croix.classList.add("fa-solid", "fa-xmark");
-  croix.addEventListener("click", function () {
-    boutonFermerModal.display = "none";
-    modalAjout.style.display = "none";
+  modalAjout.addEventListener("click", function (event) {
+    event.stopPropagation();
   });
 
   bloc.appendChild(fleche);
-  bloc.appendChild(croix);
+  container.appendChild(bloc);
+
+  const boutonFermerModal = document.createElement("i");
+  boutonFermerModal.classList.add("fa-solid", "fa-xmark");
+
+  boutonFermerModal.addEventListener("click", function () {
+    boutonFermerModal.display = "none";
+    modalAjout.style.display = "none";
+    fondNoir.style.display = "none";
+  });
+
+  bloc.appendChild(fleche);
+  bloc.appendChild(boutonFermerModal);
 
   container.appendChild(bloc);
 
@@ -306,6 +330,7 @@ function afficherModalAjout() {
   labelImage.setAttribute("for", "image");
   labelImage.id = "bouttonAjoutphoto";
   labelImage.textContent = "+ Ajouter photo";
+  labelImage.style.color = "#306685";
 
   const inputAjout = document.createElement("input");
   inputAjout.classList.add("nonVisible");
@@ -315,6 +340,8 @@ function afficherModalAjout() {
   inputAjout.accept = "image/png, image/jpg, image/jpeg";
   inputAjout.required = true;
   uploadDiv.appendChild(inputAjout);
+
+  // input pour l'image dans le rectangle
 
   inputAjout.addEventListener("change", (event) => {
     const imageSelect = event.target.files[0];
@@ -334,6 +361,8 @@ function afficherModalAjout() {
   p.textContent = "jpg.png : 4mo max";
   rectangle.appendChild(p);
 
+  // Form titre
+
   const titreDiv = document.createElement("div");
   titreDiv.classList.add("titre");
 
@@ -348,14 +377,26 @@ function afficherModalAjout() {
   titreInput.name = "title";
   titreInput.required = true;
   titreDiv.appendChild(titreInput);
+
+  // Form catégorie
+
   const form1Div = document.createElement("div");
   form1Div.classList.add("form1");
+
+  const labelCategorie = document.createElement("label");
+  labelCategorie.setAttribute("for", "category");
+  labelCategorie.textContent = "Catégorie";
+  form1Div.appendChild(labelCategorie);
 
   const categorieSelect = document.createElement("select");
   categorieSelect.id = "categorie";
   categorieSelect.name = "categoryId";
   categorieSelect.required = true;
   form1Div.appendChild(categorieSelect);
+  const optionVide = document.createElement("option");
+  optionVide.value = "";
+
+  categorieSelect.appendChild(optionVide);
 
   fetch("http://localhost:5678/api/categories")
     .then((response) => response.json())
@@ -374,8 +415,11 @@ function afficherModalAjout() {
   const barreDiv = document.createElement("div");
   barreDiv.classList.add("ligne");
 
+  // message erreur remplissage du formulaire
+
   const erreurParagraphe = document.createElement("p");
   erreurParagraphe.classList.add("erreur-message");
+
   erreurParagraphe.textContent =
     "Veuillez remplir tous les champs du formulaire.";
   erreurParagraphe.style.display = "none";
@@ -397,6 +441,8 @@ function afficherModalAjout() {
   document.body.appendChild(modalAjout);
 }
 
+// suppression travail
+
 function supprimerTravail(travailId) {
   const token = sessionStorage.getItem("token");
 
@@ -412,24 +458,42 @@ function supprimerTravail(travailId) {
         console.error("La requête de suppression a échoué");
         return;
       }
+
       const travailSupprime = document.getElementById(travailId);
       if (travailSupprime) {
         travailSupprime.remove();
-      }
 
-      supprimerTravailDeGalerie(travailId);
+        // Supprimer de la galerie
+        const galerie = document.querySelector(".gallery");
+        const travailSupprimeGalerie = galerie.querySelector(
+          `[id='${travailId}']`
+        );
+        if (travailSupprimeGalerie) {
+          travailSupprimeGalerie.remove();
+        }
+
+        // Supprimer de la modal
+        const modalGalerie = document.querySelector(".galerie-images");
+        const travailSupprimeModal = modalGalerie.querySelector(
+          `[id='${travailId}']`
+        );
+        if (travailSupprimeModal) {
+          travailSupprimeModal.remove();
+        }
+
+        // Mettre à jour le stockage local
+        travaux = travaux.filter((travail) => travail.id !== travailId);
+      }
+      alert("Travail supprimé avec succès!");
     })
     .catch((error) => {
       console.error("Erreur lors de la suppression du travail :", error);
+      alert("Échec lors de la suppression du travail.");
     });
 }
 
-function supprimerTravailDeGalerie(travailId) {
-  const travailSupprime = document.getElementById(travailId);
-  if (travailSupprime) {
-    travailSupprime.remove();
-  }
-}
+// envoi formulaire
+
 async function envoyerFormulaire() {
   const token = sessionStorage.getItem("token");
 
@@ -441,7 +505,9 @@ async function envoyerFormulaire() {
   const imageInput = document.getElementById("image");
   const titre = document.getElementById("title");
   const categorieSelect = document.getElementById("categorie");
-
+  const imgAbsolut = document.querySelector(".divphotoImg");
+  const modalAjout = document.querySelector(".modalEnvoie");
+  const maModal = document.getElementById("maModal");
   const formData = new FormData();
   formData.append("image", imageInput.files[0]);
   formData.append("title", titre.value);
@@ -457,60 +523,72 @@ async function envoyerFormulaire() {
     });
 
     if (response.ok) {
-      const nouveauTravail = await response.json();
-      alert("Travail ajouté");
-      ajouterTravailAModal(nouveauTravail);
-      ajouterTravailAGalerieSansIcones(nouveauTravail);
+      const Travail = await response.json();
+      alert("Travail ajouté avec succès!");
+
+      ajouterTravailAModal(Travail);
+
+      imageInput.value = "";
+      imgAbsolut.style.display = "none";
+      titre.value = "";
+      categorieSelect.value = "0";
+      maModal.style.display = "block";
+      modalAjout.style.display = "none";
     } else {
-      alert("Échec.");
+      alert("Échec lors de l'ajout du travail.");
     }
   } catch (error) {
     console.error("Erreur lors de la requête :", error);
   }
 }
-function ajouterTravailAGalerieSansIcones(nouveauTravail) {
+
+// ajout travail
+
+function ajouterTravailAGalerie(Travail) {
   const galerie = document.querySelector(".gallery");
   const figure = document.createElement("figure");
-  figure.id = nouveauTravail.id; // Set the id here
 
   const img = document.createElement("img");
-  img.src = nouveauTravail.imageUrl;
+  img.src = Travail.imageUrl;
   const figcaption = document.createElement("figcaption");
+  figcaption.textContent = Travail.title;
+  figcaption.style.color = "#3D3D3D";
+  figure.id = Travail.id;
+  travaux.push(Travail);
 
   figure.appendChild(img);
   figure.appendChild(figcaption);
   galerie.appendChild(figure);
 }
 
-function ajouterTravailAModal(nouveauTravail) {
+function ajouterTravailAModal(Travail) {
   const modalGalerie = document.querySelector(".galerie-images");
-  const imgContainer = créerElementImage(nouveauTravail);
+  const imgContainer = créerElementImage(Travail);
 
-  // Ajouter l'icône de suppression
   const iconeSupprimer = document.createElement("i");
-  iconeSupprimer.dataset.id = nouveauTravail.id;
   iconeSupprimer.classList.add("fa-solid", "fa-trash-can");
   iconeSupprimer.classList.add("icone-supprimer");
 
-  iconeSupprimer.addEventListener("click", function (event) {
-    supprimerTravail(nouveauTravail.id, event);
-  });
-
-  // Ajouter l'icône de survol
   const iconeHover = document.createElement("i");
   iconeHover.classList.add("fa-solid", "fa-arrows-up-down-left-right");
   iconeHover.classList.add("icone-hover");
+  iconeHover.style.display = "none";
 
   imgContainer.appendChild(iconeSupprimer);
   imgContainer.appendChild(iconeHover);
 
   modalGalerie.appendChild(imgContainer);
+
+  ajouterTravailAGalerie(Travail);
 }
+
+// bouton d'envoi du formulaire
 
 const bouton = document.createElement("input");
 bouton.type = "submit";
 bouton.classList.add("bouton");
-bouton.value = "ajouter photo";
+bouton.value = "Valider";
+bouton.style.background = "#A7A7A7";
 
 bouton.addEventListener("click", function () {
   const imageInput = document.getElementById("image");
@@ -523,7 +601,7 @@ bouton.addEventListener("click", function () {
     categorieSelect.value === "0" ||
     !imageInput.files[0]
   ) {
-    erreurDiv.style.display = "block"; // Affiche le message si les champs ne sont pas remplis
+    erreurDiv.style.display = "block";
     return;
   }
 

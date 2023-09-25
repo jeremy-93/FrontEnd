@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.querySelector("form");
   const errorMessage = document.querySelector(".erreur");
-  const loginLink = document.querySelector("nav li a[href='page-login.html']");
+  const loginLink = document.querySelector("#nav-login");
   const barre = document.querySelector(".barre");
   const divModif = document.querySelector(".modif");
   const divModifier = document.querySelector(".modifier");
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
       barre.style.display = "none";
       divModif.style.display = "none";
       divModifier.style.display = "none";
-      window.location.href = "/FrontEnd/index.html";
+      window.location.href = "index.html";
     }
   });
 });
