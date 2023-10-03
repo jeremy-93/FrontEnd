@@ -15,6 +15,15 @@
   border-radius: 30px;
   justify-content: center;
 }
+.inputTtitre {
+  color: black;
+}
+.inputCategorie {
+  color: black;
+}
+.inputImage {
+  color: black;
+}
 .bouton {
   width: 237px;
   height: 36px;
@@ -29,17 +38,19 @@
   border-radius: 60px;
   justify-content: center;
 }
-.boutonValider {
+#boutonValider {
   width: 237px;
   height: 36px;
+  margin-top: 10px;
+  background: #a7a7a7;
   font-family: Syne;
   display: inline-block;
-  padding: 8px 16px;
-  margin-bottom: 50px;
-  color: #a7a7a7;
-  border: 1px solid #1d6154;
+  margin-bottom: 10px;
+  color: white;
+  border: 1px solid #a7a7a7;
   cursor: pointer;
-  margin-right: 5px;
+  text-align: center;
+  line-height: 38px;
   border-radius: 60px;
   justify-content: center;
 }
@@ -130,9 +141,6 @@ nav ul li a {
   position: absolute;
 }
 
-input[type="submit"] {
-  cursor: pointer;
-}
 footer nav ul {
   display: flex;
   height: 300px;
@@ -165,7 +173,7 @@ footer nav ul {
 }
 .erreur-message {
   color: red;
-  margin-top: 15px;
+  margin-top: 5px;
   margin-left: 55px;
 }
 .modif {
@@ -288,7 +296,6 @@ nav img {
   font-family: Work sans;
   color: black;
   font-weight: 400;
-  margin-bottom: 40px;
   display: flex;
   justify-content: center;
 }
@@ -346,6 +353,7 @@ nav img {
 }
 
 #modalEnvoie {
+  display: none;
   top: 400px;
   position: fixed;
   top: 50%;
@@ -367,7 +375,7 @@ nav img {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   height: 670px;
 }
@@ -409,16 +417,6 @@ input {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
-  font-family: "Syne";
-  font-weight: 700;
-  color: white;
-  background-color: #1d6154;
-  margin: 2em auto;
-  width: 237px;
-  text-align: center;
-  border-radius: 60px;
-}
 .nonVisible {
   width: 0;
   height: 0;
@@ -472,6 +470,7 @@ label {
 .rectangle {
   display: flex;
   flex-direction: column;
+  margin: 20px 0px;
   align-items: center;
   justify-content: space-evenly;
   width: 420px;
@@ -535,7 +534,7 @@ label {
 }
 
 .bloc {
-  margin-top: 25px;
+  margin-top: 10px;
   width: 600px;
   display: flex;
   justify-content: space-between;

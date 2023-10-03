@@ -1,4 +1,5 @@
 const fondNoir = document.querySelector(".fondNoir");
+const boutonValider = document.getElementById("boutonValider");
 
 function appelApi() {
   const url = "http://localhost:5678/api/works";
@@ -195,6 +196,7 @@ function afficherTravauxDansModal(travaux) {
   // boutton ajouter une photo
 
   ajout.addEventListener("click", function (event) {
+    event.stopPropagation();
     const maModal = document.getElementById("maModal");
     modalAjout.style.display = "block";
     maModal.style.display = "none";
@@ -205,9 +207,9 @@ function afficherTravauxDansModal(travaux) {
 // Evenement au click pour fermée la modal au click a l'exterieur
 
 document.addEventListener("click", function (event) {
-  const modalAjout = document.getElementById("modalEnvoie");
   const maModal = document.getElementById("maModal");
   const fondNoir = document.querySelector(".fondNoir");
+  const boutonValider = document.getElementById("boutonValider");
 
   if (
     modalAjout &&
@@ -227,6 +229,7 @@ document.addEventListener("click", function (event) {
     maModal.style.display = "none";
     fondNoir.style.display = "none";
   }
+  actualiserBoutonEnvoie();
 });
 
 // Création image modal
@@ -271,11 +274,13 @@ function créerElementImage(travail) {
 }
 
 // Modal pour ajout photo
+
 const modalAjout = document.getElementById("modalEnvoie");
 modalAjout.style.display = "none";
 
 function afficherModalAjout() {
-  const modalAjout = document.getElementById("modalEnvoie");
+  const formulaire = document.createElement("form");
+  formulaire.id = "monFormulaire";
 
   const container = document.createElement("div");
   container.classList.add("container");
@@ -296,6 +301,7 @@ function afficherModalAjout() {
     event.stopPropagation();
     maModal.style.display = "block";
     modalAjout.style.display = "none";
+    modalAjout.innerHTML = "";
   });
 
   modalAjout.addEventListener("click", function (event) {
@@ -352,8 +358,8 @@ function afficherModalAjout() {
       imagePreview.src = imagePreviewUrl;
       imagePreview.classList.add("divphotoImg");
       imagePreview.style.position = "absolute";
+
       rectangle.appendChild(imagePreview);
-      console.log(imageSelect);
     }
   });
   rectangle.appendChild(uploadDiv);
@@ -375,6 +381,7 @@ function afficherModalAjout() {
   const titreInput = document.createElement("input");
   titreInput.type = "text";
   titreInput.id = "title";
+  titreInput.classList.add(".inputTitre");
   titreInput.name = "title";
   titreInput.required = true;
   titreDiv.appendChild(titreInput);
@@ -392,11 +399,11 @@ function afficherModalAjout() {
   const categorieSelect = document.createElement("select");
   categorieSelect.id = "categorie";
   categorieSelect.name = "categoryId";
+  categorieSelect.classList.add(".inputCategorie");
   categorieSelect.required = true;
   form1Div.appendChild(categorieSelect);
   const optionVide = document.createElement("option");
   optionVide.value = "";
-
   categorieSelect.appendChild(optionVide);
 
   fetch("http://localhost:5678/api/categories")
@@ -412,9 +419,24 @@ function afficherModalAjout() {
     .catch((error) => console.error("Erreur :", error));
 
   form1Div.appendChild(categorieSelect);
-
   const barreDiv = document.createElement("div");
   barreDiv.classList.add("ligne");
+
+  // changement de couleur du bouton
+
+  formulaire.addEventListener("input", function (event) {
+    const champTitre = document.getElementById("title");
+    const champCategorie = document.getElementById("categorie");
+    const champImage = document.getElementById("image");
+
+    const boutonValider = document.getElementById("boutonValider");
+
+    if (champTitre.value && champCategorie.value && champImage.value) {
+      boutonValider.style.backgroundColor = "#1d6154";
+    } else {
+      boutonValider.style.backgroundColor = "";
+    }
+  });
 
   // message erreur remplissage du formulaire
 
@@ -436,11 +458,12 @@ function afficherModalAjout() {
   container.appendChild(rectangle);
   container.appendChild(titreDiv);
   container.appendChild(form1Div);
-  container.appendChild(bouton);
+  container.appendChild(boutonValider);
 
-  modalAjout.appendChild(container);
+  formulaire.appendChild(container);
   document.body.appendChild(modalAjout);
-  event.stopPropagation();
+  modalAjout.appendChild(formulaire);
+  actualiserBoutonEnvoie();
 }
 
 // suppression travail
@@ -510,18 +533,12 @@ async function envoyerFormulaire() {
   const titre = document.getElementById("title");
   const categorieSelect = document.getElementById("categorie");
   const imgAbsolut = document.querySelector(".divphotoImg");
-  const modalAjout = document.getElementById("modalEnvoie");
   const maModal = document.getElementById("maModal");
+
   const formData = new FormData();
   formData.append("image", imageInput.files[0]);
   formData.append("title", titre.value);
   formData.append("category", categorieSelect.value);
-
-  if (imageInput.value && titre.value && categorieSelect.value) {
-    bouton.style.backgroundColor = "#1D6154"; // Changer la couleur du bouton
-  } else {
-    bouton.style.backgroundColor = "#A7A7A7"; // Réinitialiser la couleur du bouton
-  }
 
   try {
     const response = await fetch("http://localhost:5678/api/works", {
@@ -551,6 +568,7 @@ async function envoyerFormulaire() {
   } catch (error) {
     console.error("Erreur lors de la requête :", error);
   }
+  actualiserBoutonEnvoie();
 }
 
 // ajout travail
@@ -595,13 +613,7 @@ function ajouterTravailAModal(Travail) {
 
 // bouton d'envoi du formulaire
 
-const bouton = document.createElement("input");
-bouton.type = "submit";
-bouton.classList.add("bouton");
-bouton.value = "Valider";
-bouton.style.background = "#A7A7A7";
-
-bouton.addEventListener("click", function () {
+boutonValider.addEventListener("click", function () {
   const imageInput = document.getElementById("image");
   const titre = document.getElementById("title");
   const categorieSelect = document.getElementById("categorie");
@@ -618,3 +630,8 @@ bouton.addEventListener("click", function () {
 
   envoyerFormulaire();
 });
+// actualiser le bouton de validation
+function actualiserBoutonEnvoie() {
+  boutonValider.style.backgroundColor = "#a7a7a7";
+  boutonValider.style.color = "white";
+}
