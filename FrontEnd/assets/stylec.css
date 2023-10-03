@@ -23,7 +23,21 @@
   padding: 8px 16px;
   margin-bottom: 50px;
   color: #a7a7a7;
-  border: 1px solid #a7a7a7;
+  border: 1px solid #1d6154;
+  cursor: pointer;
+  margin-right: 5px;
+  border-radius: 60px;
+  justify-content: center;
+}
+.boutonValider {
+  width: 237px;
+  height: 36px;
+  font-family: Syne;
+  display: inline-block;
+  padding: 8px 16px;
+  margin-bottom: 50px;
+  color: #a7a7a7;
+  border: 1px solid #1d6154;
   cursor: pointer;
   margin-right: 5px;
   border-radius: 60px;
@@ -331,8 +345,7 @@ nav img {
   position: absolute;
 }
 
-.modalEnvoie {
-  display: none;
+#modalEnvoie {
   top: 400px;
   position: fixed;
   top: 50%;

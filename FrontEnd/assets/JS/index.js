@@ -1,4 +1,4 @@
-const fondNoir = document.getElementById("fondNoir");
+const fondNoir = document.querySelector(".fondNoir");
 
 function appelApi() {
   const url = "http://localhost:5678/api/works";
@@ -196,7 +196,7 @@ function afficherTravauxDansModal(travaux) {
 
   ajout.addEventListener("click", function (event) {
     const maModal = document.getElementById("maModal");
-    event.stopPropagation();
+    modalAjout.style.display = "block";
     maModal.style.display = "none";
     afficherModalAjout();
   });
@@ -205,8 +205,8 @@ function afficherTravauxDansModal(travaux) {
 // Evenement au click pour fermée la modal au click a l'exterieur
 
 document.addEventListener("click", function (event) {
-  const modalAjout = document.querySelector(".modalEnvoie");
-  const maModal = document.querySelector("#maModal");
+  const modalAjout = document.getElementById("modalEnvoie");
+  const maModal = document.getElementById("maModal");
   const fondNoir = document.querySelector(".fondNoir");
 
   if (
@@ -216,6 +216,7 @@ document.addEventListener("click", function (event) {
   ) {
     modalAjout.style.display = "none";
     fondNoir.style.display = "none";
+    modalAjout.innerHTML = "";
   }
 
   if (
@@ -246,6 +247,7 @@ function créerElementImage(travail) {
   iconeSupprimer.classList.add("icone-supprimer");
 
   iconeSupprimer.addEventListener("click", function (event) {
+    event.stopPropagation();
     supprimerTravail(travail.id, event);
   });
 
@@ -269,10 +271,11 @@ function créerElementImage(travail) {
 }
 
 // Modal pour ajout photo
+const modalAjout = document.getElementById("modalEnvoie");
+modalAjout.style.display = "none";
 
 function afficherModalAjout() {
-  const modalAjout = document.createElement("div");
-  modalAjout.classList.add("modalEnvoie");
+  const modalAjout = document.getElementById("modalEnvoie");
 
   const container = document.createElement("div");
   container.classList.add("container");
@@ -309,12 +312,10 @@ function afficherModalAjout() {
     boutonFermerModal.display = "none";
     modalAjout.style.display = "none";
     fondNoir.style.display = "none";
+    modalAjout.innerHTML = "";
   });
 
-  bloc.appendChild(fleche);
   bloc.appendChild(boutonFermerModal);
-
-  container.appendChild(bloc);
 
   const rectangle = document.createElement("div");
   rectangle.classList.add("rectangle");
@@ -439,59 +440,62 @@ function afficherModalAjout() {
 
   modalAjout.appendChild(container);
   document.body.appendChild(modalAjout);
+  event.stopPropagation();
 }
 
 // suppression travail
 
-function supprimerTravail(travailId) {
+async function supprimerTravail(travailId) {
   const token = sessionStorage.getItem("token");
 
-  fetch(`http://localhost:5678/api/works/${travailId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(async (response) => {
-      if (!response.ok) {
-        console.error("La requête de suppression a échoué");
-        return;
+  try {
+    const response = await fetch(
+      `http://localhost:5678/api/works/${travailId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error("La requête de suppression a échoué");
+      return;
+    }
+
+    const travailSupprime = document.getElementById(travailId);
+    if (travailSupprime) {
+      travailSupprime.remove();
+
+      // Supprimer de la galerie
+      const galerie = document.querySelector(".gallery");
+      const travailSupprimeGalerie = galerie.querySelector(
+        `[id='${travailId}']`
+      );
+      if (travailSupprimeGalerie) {
+        travailSupprimeGalerie.remove();
       }
 
-      const travailSupprime = document.getElementById(travailId);
-      if (travailSupprime) {
-        travailSupprime.remove();
-
-        // Supprimer de la galerie
-        const galerie = document.querySelector(".gallery");
-        const travailSupprimeGalerie = galerie.querySelector(
-          `[id='${travailId}']`
-        );
-        if (travailSupprimeGalerie) {
-          travailSupprimeGalerie.remove();
-        }
-
-        // Supprimer de la modal
-        const modalGalerie = document.querySelector(".galerie-images");
-        const travailSupprimeModal = modalGalerie.querySelector(
-          `[id='${travailId}']`
-        );
-        if (travailSupprimeModal) {
-          travailSupprimeModal.remove();
-        }
-
-        // Mettre à jour le stockage local
-        travaux = travaux.filter((travail) => travail.id !== travailId);
+      // Supprimer de la modal
+      const modalGalerie = document.querySelector(".galerie-images");
+      const travailSupprimeModal = modalGalerie.querySelector(
+        `[id='${travailId}']`
+      );
+      if (travailSupprimeModal) {
+        travailSupprimeModal.remove();
       }
-      alert("Travail supprimé avec succès!");
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la suppression du travail :", error);
-      alert("Échec lors de la suppression du travail.");
-    });
+
+      // Mettre à jour le stockage local
+      travaux = travaux.filter((travail) => travail.id !== travailId);
+    }
+    alert("Travail supprimé avec succès!");
+  } catch (error) {
+    console.error("Erreur lors de la suppression du travail :", error);
+    alert("Échec lors de la suppression du travail.");
+  }
 }
-
 // envoi formulaire
 
 async function envoyerFormulaire() {
@@ -506,12 +510,18 @@ async function envoyerFormulaire() {
   const titre = document.getElementById("title");
   const categorieSelect = document.getElementById("categorie");
   const imgAbsolut = document.querySelector(".divphotoImg");
-  const modalAjout = document.querySelector(".modalEnvoie");
+  const modalAjout = document.getElementById("modalEnvoie");
   const maModal = document.getElementById("maModal");
   const formData = new FormData();
   formData.append("image", imageInput.files[0]);
   formData.append("title", titre.value);
   formData.append("category", categorieSelect.value);
+
+  if (imageInput.value && titre.value && categorieSelect.value) {
+    bouton.style.backgroundColor = "#1D6154"; // Changer la couleur du bouton
+  } else {
+    bouton.style.backgroundColor = "#A7A7A7"; // Réinitialiser la couleur du bouton
+  }
 
   try {
     const response = await fetch("http://localhost:5678/api/works", {
@@ -534,6 +544,7 @@ async function envoyerFormulaire() {
       categorieSelect.value = "0";
       maModal.style.display = "block";
       modalAjout.style.display = "none";
+      modalAjout.innerHTML = "";
     } else {
       alert("Échec lors de l'ajout du travail.");
     }
