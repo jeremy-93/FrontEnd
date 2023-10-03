@@ -630,7 +630,8 @@ boutonValider.addEventListener("click", function () {
 
   envoyerFormulaire();
 });
-// actualiser le bouton de validation
+// actualiser le bouton de validation du formulaire
+
 function actualiserBoutonEnvoie() {
   boutonValider.style.backgroundColor = "#a7a7a7";
   boutonValider.style.color = "white";
