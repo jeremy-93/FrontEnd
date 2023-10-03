@@ -486,8 +486,8 @@ label {
   align-items: center;
 }
 .rectangle p {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 .ligne {
   width: 420px;
